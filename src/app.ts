@@ -14,7 +14,7 @@ app.get('/', (c) => {
 
 app.get("/error", (c) => {
     c.status(422)
-    c.var.logger.info("Wow!")
+    c.var.logger.info("Wow!!!!")
     throw new Error("Ho no!")
 })
 
