@@ -9,7 +9,7 @@ const app = new OpenAPIHono()
 app.use(pinoLogger())
 
 app.get('/', (c) => {
-  return c.text('Hello Hono!')
+  return c.text('Hello Hono! hello')
 })
 
 app.get("/error", (c) => {
