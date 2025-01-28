@@ -44,8 +44,7 @@ export const patch: AppRouteHandler<PatchRoute> = async (c) => {
   const { id } = c.req.valid("param");
   const updates = c.req.valid("json");
 
-  const [task] = await db
-    .update(tasks)
+  const [task] = await db.update(tasks)
     .set(updates)
     .where(eq(tasks.id, id))
     .returning();

@@ -1,4 +1,4 @@
-import { insertTasksSchema, selectTasksSchema } from "@/db/schema";
+import { insertTasksSchema, patchTasksSchema, selectTasksSchema } from "@/db/schema";
 import { notFoundSchema } from "@/lib/constants";
 import { createRoute, z } from "@hono/zod-openapi";
 import * as HttpStatusCodes from "stoker/http-status-codes";
@@ -72,7 +72,7 @@ export const patch = createRoute({
   request: {
     params: IdParamsSchema,
     body: jsonContentRequired(
-      insertTasksSchema,
+      patchTasksSchema,
       "Update tasks"
     )
   },
@@ -88,7 +88,7 @@ export const patch = createRoute({
     ),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContentOneOf(
       [
-        createErrorSchema(insertTasksSchema),
+        createErrorSchema(patchTasksSchema),
         createErrorSchema(IdParamsSchema),
       ],
       "The validation error(s)"
