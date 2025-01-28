@@ -11,7 +11,7 @@ export default function configureOpenAPI(app: AppOpenAPI) {
   });
 
   app.get(
-    "/reference",
+    "/docs",
     apiReference({
       theme: "kepler",
       layout: "classic",

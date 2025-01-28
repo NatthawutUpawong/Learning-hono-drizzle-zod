@@ -1,8 +1,15 @@
 import db from "@/db/index.js";
-import type { ListRoute, CreateRoute, GetOneRoute } from "./tasks.routes.js";
+import type {
+  ListRoute,
+  CreateRoute,
+  GetOneRoute,
+  PatchRoute,
+} from "./tasks.routes.js";
 import type { AppRouteHandler } from "@/lib/type.js";
 import { tasks } from "@/db/schema.js";
 import * as HttpStatusCodes from "stoker/http-status-codes";
+import * as HttpstatusPhrases from "stoker/http-status-phrases";
+import { eq } from "drizzle-orm";
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
   const tasks = await db.query.tasks.findMany();
@@ -22,5 +29,33 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
       return operators.eq(fields.id, id);
     },
   });
+  if (!task) {
+    return c.json(
+      {
+        message: HttpstatusPhrases.NOT_FOUND,
+      },
+      HttpStatusCodes.NOT_FOUND
+    );
+  }
+  return c.json(task, HttpStatusCodes.OK);
+};
+
+export const patch: AppRouteHandler<PatchRoute> = async (c) => {
+  const { id } = c.req.valid("param");
+  const updates = c.req.valid("json");
+
+  const [task] = await db
+    .update(tasks)
+    .set(updates)
+    .where(eq(tasks.id, id))
+    .returning();
+  if (!task) {
+    return c.json(
+      {
+        message: HttpstatusPhrases.NOT_FOUND,
+      },
+      HttpStatusCodes.NOT_FOUND
+    );
+  }
   return c.json(task, HttpStatusCodes.OK);
 };
