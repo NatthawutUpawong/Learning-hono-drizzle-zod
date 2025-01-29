@@ -9,7 +9,7 @@ const EnvSchema = z
   .object({
     NODE_ENV: z.string().default("development"),
     PORT: z.coerce.number().default(3000),
-    LOG_LEVEL: z.enum(["fatal", "error", "warn", "info", "debug", "trace"]),
+    LOG_LEVEL: z.enum(["fatal", "error", "warn", "info", "debug", "trace", "silent"]),
     DATABASE_URL: z.string().url(),
     DATABASE_AUTH_TOKEN: z.string().optional(),
   })

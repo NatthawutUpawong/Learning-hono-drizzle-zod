@@ -1,5 +1,4 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { notBetween, sql } from "drizzle-orm";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const tasks = sqliteTable("tasks", {
